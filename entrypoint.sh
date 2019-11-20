@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -52,13 +52,11 @@ fi
 if [[ ! -z "$INPUT_PR_REVIEWER" ]]; then
 
   # Split string into array
-  IFS=',' read -r -a REVIEWER_ARRAY <<< "$INPUT_PR_REVIEWER"
-
+  IFS=',' read -r -a REVIEWERS <<< "$INPUT_PR_REVIEWER"
   # Delete the $GITHUB_ACTOR from array
-  REVIEWER_ARRAY=${REVIEWER_ARRAY[@]/$GITHUB_ACTOR}
-
+  REVIEWERS_WO_ACTOR=(${REVIEWERS[@]/$GITHUB_ACTOR})
   # Select random string from array and place into PR_ARG
-  REVIEWER=${REVIEWER_ARRAY[RANDOM%${#REVIEWER_ARRAY[@]}]}
+  REVIEWER=${REVIEWERS_WO_ACTOR[RANDOM%${#REVIEWERS_WO_ACTOR[@]}]}
 
   PR_ARG="$PR_ARG -r \"$REVIEWER\""
 fi

@@ -9,6 +9,8 @@ LABEL \
 RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
   apk add --no-cache git hub
 
+RUN apk update && apk add bash
+
 ADD *.sh /
 
 ENTRYPOINT ["/entrypoint.sh"]
