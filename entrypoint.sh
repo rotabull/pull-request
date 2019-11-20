@@ -50,20 +50,23 @@ if [[ ! -z "$PR_ARG" ]]; then
 fi
 
 if [[ ! -z "$INPUT_PR_REVIEWER" ]]; then
-  PR_ARG="$PR_ARG -r \"$INPUT_PR_REVIEWER\""
-fi
 
-if [[ ! -z "$INPUT_PR_ASSIGNEE" ]]; then
-  PR_ARG="$PR_ARG -a \"$INPUT_PR_ASSIGNEE\""
+  # Split string into array
+  IFS=',' read -r -a REVIEWER_ARRAY <<< "$INPUT_PR_REVIEWER"
+
+  # Delete the $GITHUB_ACTOR from array
+  REVIEWER_ARRAY=${REVIEWER_ARRAY[@]/$GITHUB_ACTOR}
+
+  # Select random string from array and place into PR_ARG
+  REVIEWER=${REVIEWER_ARRAY[RANDOM%${#REVIEWER_ARRAY[@]}]}
+
+  PR_ARG="$PR_ARG -r \"$REVIEWER\""
 fi
 
 if [[ ! -z "$INPUT_PR_LABEL" ]]; then
   PR_ARG="$PR_ARG -l \"$INPUT_PR_LABEL\""
 fi
 
-if [[ ! -z "$INPUT_PR_MILESTONE" ]]; then
-  PR_ARG="$PR_ARG -M \"$INPUT_PR_MILESTONE\""
-fi
 
 COMMAND="hub pull-request \
   -b $DESTINATION_BRANCH \

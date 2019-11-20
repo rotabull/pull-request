@@ -1,9 +1,9 @@
 name: GitHub Pull Request Action
-author: Wei He <github@weispot.com>
+author: Rotabull <engineering@rotabull.com>
 description: ⤵️ Create pull request
 branding:
-  icon: 'git-pull-request'
-  color: 'black'
+  icon: "git-pull-request"
+  color: "navy"
 inputs:
   source_branch:
     description: Branch name to pull from, default is triggered branch
@@ -21,20 +21,14 @@ inputs:
   pr_reviewer:
     description: Pull request reviewers, comma-separated list (no spaces)
     required: false
-  pr_assignee:
-    description: Pull request assignees, comma-separated list (no spaces)
-    required: false
   pr_label:
     description: Pull request labels, comma-separated list (no spaces)
-    required: false
-  pr_milestone:
-    description: Pull request milestone
     required: false
   github_token:
     description: GitHub token secret
     required: true
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "docker"
+  image: "Dockerfile"
   env:
     GITHUB_TOKEN: ${{ inputs.github_token }}
